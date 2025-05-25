@@ -1,62 +1,66 @@
-Taxi Fare Analysis by Company
-This analysis investigates how fare structures differ across four major ride-hailing companies—Uber, Lyft, Via, and Juno—using trip data from New York City.
+# Taxi Fare Analysis: NYC Ride-Hailing Companies
 
-Objective
-The aim of this project is to examine how each company sets fares relative to trip distance.
-Specifically, we compare cost per mile and evaluate how consistently each company applies its fare structure, with the broader goal of identifying the most cost-effective provider.
+This is a simple analysis of how four major ride-hailing services — Uber, Lyft, Via, and Juno — charge fares in New York City.  
+The focus is on understanding how fare relates to trip distance and how consistent each company is in its pricing.
 
-Methods
-Data Preparation
-Raw .parquet files were sourced from Kaggle and cleaned for analysis.
+---
 
-Key variables included:
+## Project Goals
 
-trip_miles
+- Compare how fare increases with distance across companies  
+- Estimate cost per mile and base fare using linear regression  
+- Try a non-linear model (random forest) to see if predictions can be improved  
+- Visualize and summarize patterns that stand out
 
-Fare components such as base_passenger_fare, tolls, sales_tax, congestion_surcharge, and airport_fee (excluding tips).
+---
 
-A new column total_amount was computed by summing the relevant fare elements.
+## Data
 
-Company Identification
-The variable hvfhs_license_num was mapped to company names as follows:
-HV0002 → Juno
-HV0003 → Uber
-HV0004 → Via
-HV0005 → Lyft
+The data comes from public NYC trip records (Kaggle).  
+Key variables used in this project:
 
-Modeling Approach
-Two models were applied for each company:
+-  trip_miles : trip distance  
+- Fare components:  
+   base_passenger_fare ,  tolls ,  sales_tax ,  congestion_surcharge ,  airport_fee   
+- Tips were excluded
 
-Linear Regression for interpretability (cost per mile and base fare)
+All fare-related columns (excluding tips) were summed into a single  total_amount  column for modeling.
 
-Random Forest Regressor for improved fit
+Companies were identified by  hvfhs_license_num :
 
-Both models used trip_miles as input to predict total_amount.
+ HV0002 - Juno    
+ HV0003 - Uber    
+ HV0004 - Via     
+ HV0005 - Lyft    
 
-Evaluation metrics included:
+---
 
-R² score (explained variance)
+## Modeling
 
-RMSE (root mean squared error)
+Two models were tested for each company:
 
-Visualization
-Boxplots to compare fare distributions across companies
+1. **Linear Regression** — just to get a sense of base fare and cost per mile  
+2. **Random Forest Regressor** — to see if we can better capture variation
 
-Regression lines to observe fare trends by distance
+Both models used  trip_miles  to predict  total_amount .
 
-Actual vs. Predicted scatter plots to assess model performance
+Performance was evaluated using:
+- R² (explained variance)
+- RMSE (root mean squared error)
 
-Key Findings
-Via offered the lowest average cost per mile, followed by Uber, Lyft, and Juno.
+---
 
-That said, Via and Uber had noticeably lower R² scores, implying more variability in their fare patterns.
+## Plots and Visuals
 
-It’s worth noting that Via’s trips were mostly short-distance, which may influence the observed pricing trend.
+- **Boxplots** show fare distribution differences between companies  
+- **Regression lines** highlight how fare changes with distance  
+- **Actual vs. predicted plots** check model fit
 
-Future Directions
-Expand the dataset to include more records for better model generalization
+---
 
-Explore how fares evolve over time (monthly or yearly trends)
+## What Stood Out
 
-Use statistical testing to formally compare fare structures between companies
+- **Via** had the lowest cost per mile, followed by Uber, Lyft, and Juno  
+- But Via (and also Uber) showed lower R² scores → fares were less predictable  
+- Via mostly handled short-distance rides, which might explain some of the variation
 
