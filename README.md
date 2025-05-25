@@ -1,67 +1,62 @@
-# Taxi Fare Analysis by Company
+Taxi Fare Analysis by Company
+This analysis investigates how fare structures differ across four major ride-hailing companies—Uber, Lyft, Via, and Juno—using trip data from New York City.
 
-This project explores how fare structures differ across four major ride-hailing companies—**Uber, Lyft, Via, and Juno**—using New York City trip data.
+Objective
+The aim of this project is to examine how each company sets fares relative to trip distance.
+Specifically, we compare cost per mile and evaluate how consistently each company applies its fare structure, with the broader goal of identifying the most cost-effective provider.
 
----
+Methods
+Data Preparation
+Raw .parquet files were sourced from Kaggle and cleaned for analysis.
 
-## Objective
+Key variables included:
 
-To compare how each taxi company charges fares per mile by analyzing the relationship between **trip distance** and **fare amount**.  
-The goal is to identify the most cost-efficient company and understand differences in fare variability.
+trip_miles
 
----
+Fare components such as base_passenger_fare, tolls, sales_tax, congestion_surcharge, and airport_fee (excluding tips).
 
-## Methods
+A new column total_amount was computed by summing the relevant fare elements.
 
-### Data Preprocessing
-
-- Loaded and cleaned `.parquet` files from **Kaggle**
-- Extracted key columns such as:
-  - `trip_miles`
-  - `base_passenger_fare`, `tolls`, `sales_tax`, `congestion_surcharge`, `airport_fee`, `tips`
-- Calculated `total_amount` by summing all fare components (excluding tips)
-
-### Company Mapping
-
-Mapped `hvfhs_license_num` codes to their respective company names:
+Company Identification
+The variable hvfhs_license_num was mapped to company names as follows:
 HV0002 → Juno
 HV0003 → Uber
 HV0004 → Via
 HV0005 → Lyft
 
+Modeling Approach
+Two models were applied for each company:
 
-### Modeling
+Linear Regression for interpretability (cost per mile and base fare)
 
-- Trained both **Linear Regression** and **Random Forest Regressor** models for each company
-- Predicted `total_amount` based on `trip_miles`
-- Evaluated models using:
-  - **R² score**
-  - **RMSE (Root Mean Squared Error)**
-- Used Linear Regression to extract interpretable metrics:
-  - **Slope** (cost per mile)
-  - **Intercept** (base fare)
+Random Forest Regressor for improved fit
 
-### Visualization
+Both models used trip_miles as input to predict total_amount.
 
-- **Boxplots**: Compared fare distributions across companies
-- **Regression plots**: Visualized trends in fare by distance
-- **Actual vs. Predicted** scatter plots: Assessed model performance by company
+Evaluation metrics included:
 
----
+R² score (explained variance)
 
-## Key Insights
+RMSE (root mean squared error)
 
-- **Via** had the lowest cost per mile, followed by **Uber**, **Lyft**, and **Juno**
-- However, **Via** and **Uber** showed relatively lower R² scores, suggesting greater variability in fare patterns
-- **Via’s trips are concentrated around shorter distances**, which should be considered when interpreting pricing policies
+Visualization
+Boxplots to compare fare distributions across companies
 
----
+Regression lines to observe fare trends by distance
 
-## Future Improvements
+Actual vs. Predicted scatter plots to assess model performance
 
-- Increase the amount of training data
-- Analyze fare trends over time (e.g., monthly/yearly)
-- Perform statistical comparisons between companies for more robust insights
+Key Findings
+Via offered the lowest average cost per mile, followed by Uber, Lyft, and Juno.
 
+That said, Via and Uber had noticeably lower R² scores, implying more variability in their fare patterns.
 
+It’s worth noting that Via’s trips were mostly short-distance, which may influence the observed pricing trend.
+
+Future Directions
+Expand the dataset to include more records for better model generalization
+
+Explore how fares evolve over time (monthly or yearly trends)
+
+Use statistical testing to formally compare fare structures between companies
 
